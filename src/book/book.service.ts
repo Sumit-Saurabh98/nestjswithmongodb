@@ -15,12 +15,8 @@ export class BookService {
 
   async findAll(query?: ExpressQuery) {
 
-    if (!query) {
-      return this.bookModel.find().exec();
-    }
-
     const resPerPage = 2;
-    const currentPage = Number(query.page) || 1;
+    const currentPage = Number(query?.page) || 1;
     const skip = resPerPage * (currentPage - 1);
 
     if (query) {
@@ -36,6 +32,9 @@ export class BookService {
       const books = await this.bookModel.find({ ...keyword }).limit(resPerPage).skip(skip).exec();
       return books;
     }
+
+    const books = await this.bookModel.find().exec();
+    return books;
 
   }
 
