@@ -5,6 +5,7 @@ import { Book } from './schemas/book.schema';
 import mongoose from 'mongoose';
 import { CreateBookDto } from './dto/create-book-dto';
 import { UpdateBookDto } from './dto/update-book-dto';
+import { User } from 'src/auth/schemas/user.schema';
 
 @Injectable()
 export class BookService {
@@ -52,8 +53,10 @@ export class BookService {
     return books;
   }
 
-  async create(createBookDto: CreateBookDto) {
-    const newBook = await this.bookModel.create(createBookDto);
+  async create(createBookDto: CreateBookDto, user: User) {
+
+    const data = Object.assign(createBookDto, { user: user._id });
+    const newBook = await this.bookModel.create(data);
     return newBook;
   }
 
