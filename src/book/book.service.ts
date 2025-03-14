@@ -6,13 +6,14 @@ import mongoose from 'mongoose';
 import { CreateBookDto } from './dto/create-book-dto';
 import { UpdateBookDto } from './dto/update-book-dto';
 import { User } from 'src/auth/schemas/user.schema';
-import { uploadImagesOnAWS } from 'src/utils/aws';
+import { S3Service } from 'src/s3/s3.service';
 
 @Injectable()
 export class BookService {
   constructor(
     @InjectModel(Book.name)
     private bookModel: mongoose.Model<Book>,
+    private readonly s3Service: S3Service
   ) {}
 
   async findAll(query?: ExpressQuery) {
@@ -88,7 +89,7 @@ export class BookService {
       return new NotFoundException('Book not found with that id.');
     }
     
-    const images = await uploadImagesOnAWS(files);
+    const images = await this.s3Service.uploadImagesOnAWS(files);
 
     book.images = images as object[];
     const newBook = await book.save();
