@@ -8,7 +8,7 @@
 # Clone the repo
 $ git clone <repo_link>
 
-# e2e tests
+# install packages
 $ npm install
 
 # Run project
@@ -19,14 +19,14 @@ $ docker-compose --profile dev up
 
 
 ```bash
+# Clone the repo
+$ git clone <repo_link>
+
+# install packages
+$ npm install
+
 # development
-$ npm run start
-
-# watch mode
 $ npm run start:dev
-
-# production mode
-$ npm run start:prod
 ```
 
 
