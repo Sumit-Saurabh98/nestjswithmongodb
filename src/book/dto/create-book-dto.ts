@@ -1,4 +1,4 @@
-import { IsEmpty, IsEnum, IsNotEmpty, IsString } from "class-validator";
+import { IsEmpty, IsEnum, IsNotEmpty, IsOptional, IsString } from "class-validator";
 import { Category } from "../schemas/book.schema";
 import { User } from "src/auth/schemas/user.schema";
 
@@ -20,6 +20,9 @@ export class CreateBookDto {
     @IsNotEmpty({ message: 'Category is required' })
     @IsEnum(Category, { message: 'Category must be one of the following: Action, Adventure, Comedy, Drama, Horror, Romance, Thriller, SciFi, Fantasy, Mystery, Historical, Classic' })
     readonly category: string;
+
+    @IsOptional()
+    readonly images?: object[]
 
     @IsNotEmpty({ message: 'Price is required' })
     readonly price: number;

@@ -33,6 +33,9 @@ export class Book {
   @Prop({ required: true })
   price: number;
 
+  @Prop()
+  images?:object[]
+
   @Prop({ required: true })
   category: Category;
 

@@ -6,6 +6,7 @@ import mongoose from 'mongoose';
 import { CreateBookDto } from './dto/create-book-dto';
 import { UpdateBookDto } from './dto/update-book-dto';
 import { User } from 'src/auth/schemas/user.schema';
+import { uploadImagesOnAWS } from 'src/utils/aws';
 
 @Injectable()
 export class BookService {
@@ -78,5 +79,19 @@ export class BookService {
       return new NotFoundException('Book not found with that id.');
     }
     return book;
+  }
+
+  async uploadImages(id: string, files: Array<Express.Multer.File>) {
+
+    const book = await this.bookModel.findById(id).exec();
+    if (!book) {
+      return new NotFoundException('Book not found with that id.');
+    }
+    
+    const images = await uploadImagesOnAWS(files);
+
+    book.images = images as object[];
+    const newBook = await book.save();
+    return newBook;
   }
 }
