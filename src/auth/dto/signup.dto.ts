@@ -1,3 +1,4 @@
+import { Optional } from "@nestjs/common";
 import { IsEmail, IsEnum, IsNotEmpty, IsString, MinLength } from "class-validator";
 
 export class SignUpDto {
@@ -14,4 +15,7 @@ export class SignUpDto {
     @IsNotEmpty({ message: 'Passwotd is required' })
     @MinLength(6, { message: 'Password must be at least 6 characters' })
     readonly password: string;
+
+    @Optional()
+    readonly role: string[]
 }

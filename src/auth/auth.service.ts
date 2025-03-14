@@ -16,7 +16,7 @@ export class AuthService {
   ) {}
 
   async signUp(signUpDto: SignUpDto): Promise<{ user: User; token: string }> {
-    const { name, email, password } = signUpDto;
+    const { name, email, password, role } = signUpDto;
 
     const userExists = await this.userModel.findOne({ email });
 
@@ -28,6 +28,7 @@ export class AuthService {
     const user = await this.userModel.create({
       name,
       email,
+      role,
       password: hashedPassword,
     });
 

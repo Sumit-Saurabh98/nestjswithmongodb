@@ -4,12 +4,17 @@ import { BookService } from './book.service';
 import { CreateBookDto } from './dto/create-book-dto';
 import { UpdateBookDto } from './dto/update-book-dto';
 import { AuthGuard } from '@nestjs/passport';
+import { Roles } from 'src/auth/decorators/roles.decorators';
+import { Role } from 'src/auth/enums/role.enum';
+import { RolesGuard } from 'src/auth/guards/roles.guard';
 
 @Controller('book')
 export class BookController {
     constructor(private bookService: BookService) {}
 
     @Get()
+    @Roles(Role.Admin, Role.Moderator)
+    @UseGuards(AuthGuard('jwt'), RolesGuard)
     async findAll(@Query() query?: ExpressQuery) {
         return this.bookService.findAll(query);
     }
